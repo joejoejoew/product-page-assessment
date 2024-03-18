@@ -1,6 +1,7 @@
 import './index.css'
 import data from './assets/B007TIE0GQ';
 import React from 'react';
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 // http://localhost:5173/api/product/B007TIE0GQ.json
 
 const ProductTags: React.FC<{ items: readonly string[] }> = ({ items }) => (
@@ -10,6 +11,86 @@ const ProductTags: React.FC<{ items: readonly string[] }> = ({ items }) => (
     ))}
   </ul>
 );
+
+type Sale = {
+  weekEnding: string,
+  retailSales: number,
+  wholesaleSales: number,
+  unitsSold: number,
+  retailerMargin: number,
+}
+
+const columnHelper = createColumnHelper<Sale>()
+
+
+const SalesTable: React.FC<{ data: Sale[] }> = ({ data }) => {
+  const toUSD = (amount: number) => new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0, // Do not show any digits after the decimal point
+    maximumFractionDigits: 0, // Do not show any digits after the decimal point
+  }).format(amount)
+  
+  const formatDate = (date: string) => {
+    const [year, month, day] = date.split('-');
+    return `${day}-${month}-${year?.slice(2)}`;
+  }
+  
+  const columns = [
+    columnHelper.accessor('weekEnding', {
+      header: "Week Ending",
+      cell: info => formatDate(info.getValue()),
+    }),
+    columnHelper.accessor('retailSales', {
+      header: "Retail Sales",
+      cell: info => toUSD(info.getValue()),
+    }),
+    columnHelper.accessor('wholesaleSales', {
+      header: "Wholesale Sales",
+      cell: info => toUSD(info.getValue()),
+    }),
+    columnHelper.accessor('unitsSold', {
+      header: "Units Sold",
+    }),
+    columnHelper.accessor('retailerMargin', {
+      header: "Retailer Margin",
+      cell: info => toUSD(info.getValue()),
+    }),
+  ];
+  const { getHeaderGroups, getRowModel } = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel()
+  });
+
+  return (
+    <table>
+      <thead>
+        {getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <th key={header.id}>{header.isPlaceholder
+                ? null
+                : flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody>
+        {getRowModel().rows.map((row) => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 function App() {
   const product = data[0];
@@ -47,6 +128,7 @@ function App() {
             <h2 className="text-2xl mb-2">Retail Sales</h2>
           </section>
           <section aria-label={`${product.title} retail sales table`}>
+            <SalesTable data={product.sales} />
           </section>
         </main>
       </div>
