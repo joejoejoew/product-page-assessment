@@ -15,7 +15,7 @@ const toUSD = (amount: number) =>
 
 const formatDate = (date: string) => {
   const [year, month, day] = date.split("-");
-  return `${day}-${month}-${year?.slice(2)}`;
+  return `${month}-${day}-${year?.slice(2)}`;
 };
 
 const SalesTable: FC<{ data: SalesRow[] }> = ({ data }) => {
@@ -25,7 +25,6 @@ const SalesTable: FC<{ data: SalesRow[] }> = ({ data }) => {
     columnHelper.accessor("weekEnding", {
       header: "Week Ending",
       cell: (info) => formatDate(info.getValue()),
-      // sortingFn: 'datetime',
     }),
     columnHelper.accessor("retailSales", {
       header: "Retail Sales",
@@ -101,7 +100,7 @@ const SalesTable: FC<{ data: SalesRow[] }> = ({ data }) => {
       <tbody>
         {table
           .getRowModel()
-          .rows.slice(0, 10)
+          .rows.slice(0, 1000)
           .map((row) => {
             return (
               <tr key={row.id}>
