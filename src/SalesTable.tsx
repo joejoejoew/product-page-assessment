@@ -117,7 +117,7 @@ const SalesTable: FC<{ data: SalesRow[] }> = ({ data }) => {
       <tbody className="text-2 text-gray-300">
         {table
           .getRowModel()
-          .rows.slice(0, 100)
+          .rows.slice(0, 100) // TODO pagination
           .map((row) => (
             <tr key={row.id} className="border-t border-gray-100">
               {row.getVisibleCells().map((cell) => {

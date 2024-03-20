@@ -14,7 +14,7 @@ function App() {
       <header className="bg-[#052849] px-[15px] pb-[14px] pt-[23px]">
         <nav>
           <a href="/">
-            <img src="./stackline_logo_small.png" width="50" height="50" />
+            <img src="/product-page-assessment/stackline_logo_small.png" width="50" height="50" />
           </a>
         </nav>
       </header>
@@ -45,10 +45,10 @@ function App() {
         </aside>
 
         <main className="flex-1 space-y-[78px]">
-          <section
+          {/* <section
             aria-label={`${title} retail sales line chart`}
             className="h-[695px] bg-white shadow-lg"
-          ></section>
+          ></section> */}
           <section
             aria-label={`${title} retail sales table`}
             className="bg-white shadow-lg"
