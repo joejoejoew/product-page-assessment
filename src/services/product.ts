@@ -18,7 +18,7 @@ export type Product = {
 
 export const productApi = createApi({
   reducerPath: 'productAPI',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: './api' }),
   endpoints: (builder) => ({
     getProductById: builder.query<Product[], string>({
       query: id => `product/${id}.json`,

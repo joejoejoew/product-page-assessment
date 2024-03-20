@@ -14,7 +14,7 @@ function App() {
       <header className="bg-[#052849] px-[15px] pb-[14px] pt-[23px]">
         <nav>
           <a href="/">
-            <img src="/stackline_logo_small.png" width="50" height="50" />
+            <img src="./stackline_logo_small.png" width="50" height="50" />
           </a>
         </nav>
       </header>
